@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { FIREBASE_AUTH, UPDATEUSER } from '../firebase/FirebaseConfig';
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-const Login = () => {
+export function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -75,8 +75,6 @@ const Login = () => {
         </View>
     )
 };
-
-export default Login;
 
 const styles = StyleSheet.create({
     container: {

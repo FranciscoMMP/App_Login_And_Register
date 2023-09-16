@@ -1,13 +1,13 @@
+import { TouchableOpacityProps } from "react-native";
 import { Container, ContainerText } from "./styles";
 
-interface ScreenButtonProps {
+interface ScreenButtonProps extends TouchableOpacityProps {
     children: string;
-    onPress: () => void;
 }
 
-export function ScreenButton({children, onPress}: ScreenButtonProps ){
+export function ScreenButton({children, ...rest}: ScreenButtonProps ){
     return(
-        <Container onPress={onPress}>
+        <Container {...rest}>
             <ContainerText>{children}</ContainerText>
         </Container>
     )

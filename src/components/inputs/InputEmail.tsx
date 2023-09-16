@@ -1,26 +1,38 @@
-import { TextInput, View, StyleSheet, Text } from "react-native"
-import React, {useContext} from "react"
-import { AuthContext } from "../../contexts/AuthContext"
-import { Container, Input } from "./styles"
+import React, { useState } from 'react';
+import { Text } from 'react-native';
+import { Container, Input } from './styles';
+import { useEmail } from '../../contexts/EmailContext';
 
 export function InputEmail() {
-    return(
-    <Container>
-        <Input
-            placeholder="Your Email"
-        />
-    </Container>    
-    )
-}
+  const { email, setEmail, isValid, validateEmail, errorMessage } = useEmail();
+  const [isValidationPerformed, setIsValidationPerformed] = useState(false);
 
-const styles = StyleSheet.create({
-    input: {
-        marginVertical: 4,
-        height: 64,
-        borderWidth: 1,
-        borderRadius: 4,
-        padding: 10,
-        backgroundColor: '#FFFFFF',
-        width: 343,
-    },
-})
+  const handleChangeEmail = (text: string) => {
+    setEmail(text);
+    setIsValidationPerformed(false); // Reinicia a validação quando o email é alterado
+  };
+
+  const handleBlurEmail = () => {
+    validateEmail();
+    setIsValidationPerformed(true); // Marca que a validação foi realizada após a primeira vez
+  };
+
+  return (
+    <Container>
+      <Input
+        placeholder="Your Email"
+        value={email}
+        onChangeText={handleChangeEmail}
+        onBlur={handleBlurEmail}
+        style={{
+          borderColor: isValidationPerformed ? (isValid ? '#2AA952' : 'red') : '#fff',
+        }} // Estiliza a borda com base na validação após a primeira validação
+      />
+      {isValid || !isValidationPerformed ? null : (
+        <Text style={{ color: '#F01F0E', marginLeft: 20, marginRight: 20 }}>
+          {errorMessage}
+        </Text>
+      )}
+    </Container>
+  );
+}

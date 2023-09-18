@@ -1,3 +1,4 @@
+import React from "react";
 import { ScreenContainer } from "./styles";
 import { ScreenTitle } from "../components/screenTitle/ScreenTitle";
 import { InputEmail } from "../components/inputs/InputEmail";
@@ -6,7 +7,8 @@ import { InstructionForgotPassword } from "../components/instructionForgotPasswo
 import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { Alert } from "react-native";
 
 export function ForgotPassword () {
     const navigation = useNavigation();
@@ -14,14 +16,19 @@ export function ForgotPassword () {
     const {email, setEmail} = useAuth();
     const auth = FIREBASE_AUTH;
 
-    const handleForgotPassword = async () => {
+    useFocusEffect(
+        React.useCallback(() => {
+            setEmail("")
+        }, [])
+    )
+
+    const handleSendPasswordResetEmail = async () => {
         try {
             await sendPasswordResetEmail(auth, email)
-            alert('Password reset email sent')
-            setEmail("")
+            Alert.alert('Done!', 'Password reset email sent')
             navigation.navigate("Login" as never)
         } catch (error: any) {
-            alert('Error: ' + error.message)
+            Alert.alert('Error: ', error.message)
         }
     }
 
@@ -30,7 +37,7 @@ export function ForgotPassword () {
         <ScreenTitle children="Forgot Password" />
         <InstructionForgotPassword />
         <InputEmail />
-        <ScreenButton onPress={handleForgotPassword} children="SEND" />
+        <ScreenButton onPress={handleSendPasswordResetEmail} children="SEND" />
     </ScreenContainer>
     )
 }

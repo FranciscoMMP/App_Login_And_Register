@@ -9,6 +9,7 @@ interface AuthContextProps {
   setName: (name: string) => void;
 }
 
+
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 interface AuthProviderProps {

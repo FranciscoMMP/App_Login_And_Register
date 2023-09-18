@@ -1,56 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Text } from 'react-native';
 import { Container, Input } from './styles';
 import { useAuth } from '../../contexts/AuthContext';
+import { StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 export function InputPassword() {
-  const {password, setPassword} = useAuth();
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-  const [isValidationPerformed, setIsValidationPerformed] = useState(false);
+    const {password, setPassword} = useAuth();
+    const [isPasswordValid, setIsPasswordValid] = useState(true);
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+    const [isValidationPerformed, setIsValidationPerformed] = useState(false);
 
-  const isPasswordValidFn = (password: string) => {
-    return password.length >= 6;
-  };
+    useFocusEffect(
+        React.useCallback(() => {
+            setIsValidationPerformed(false)
+            setIsPasswordValid(true)
+        }, [])
+    )
 
-  const validatePassword = () => {
-    const valid = isPasswordValidFn(password);
-    setIsPasswordValid(valid);
-    if (!valid) {
-      setPasswordErrorMessage('Password should be at least 6 characters long');
-    } else {
-      setPasswordErrorMessage('');
-    }
-    setIsValidationPerformed(true);
-  };
+    const isPasswordValidFn = (password: string) => {
+        return password.length >= 6;
+    };
 
-  const handleChangePassword = (text: string) => {
-    setPassword(text);
-    setIsValidationPerformed(false);
-  };
+    const validatePassword = () => {
+        const valid = isPasswordValidFn(password);
+        setIsPasswordValid(valid);
+        if (!valid) {
+        setPasswordErrorMessage('Password should be at least 6 characters long');
+        } else {
+        setPasswordErrorMessage('');
+        }
+        setIsValidationPerformed(true);
+    };
 
-  const handleBlurPassword = () => {
-    validatePassword();
-  };
+    const handleChangePassword = (text: string) => {
+        setPassword(text);
+        setIsValidationPerformed(false);
+    };
 
-  return (
-    <Container>
-      <Input
-        placeholder="Password"
-        value={password}
-        onChangeText={handleChangePassword}
-        onBlur={handleBlurPassword}
-        secureTextEntry={true}
-        autoCapitalize='none'
-        style={{
-          borderColor: isValidationPerformed ? (isPasswordValid ? '#2AA952' : 'red') : '#fff',
-        }}
-      />
-      {!isPasswordValid && (
-        <Text style={{ color: '#F01F0E', marginLeft: 20, marginRight: 20 }}>
-          {passwordErrorMessage}
-        </Text>
-      )}
-    </Container>
-  );
+    const handleBlurPassword = () => {
+        validatePassword();
+    };
+
+    return (
+        <Container>
+        <Input
+            placeholder="Password"
+            value={password}
+            onChangeText={handleChangePassword}
+            onBlur={handleBlurPassword}
+            secureTextEntry={true}
+            autoCapitalize='none'
+            style={{
+            borderColor: isValidationPerformed ? (isPasswordValid ? '#2AA952' : '#F01F0E') : '#fff',
+            }}
+        /> 
+            {!isPasswordValid && (
+                <Text style={{ color: '#F01F0E', marginLeft: 20, marginRight: 20 }}>
+                {passwordErrorMessage}
+                </Text>
+            )}
+        </Container>
+    );
 }
+
+const styles = StyleSheet.create({
+    shadowProp:{
+        shadowOffset: {width: -2, height: 4},  
+        shadowColor: '#171717',  
+        shadowOpacity: 0.2,  
+        shadowRadius: 3,  
+    }
+})

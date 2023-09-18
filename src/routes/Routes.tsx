@@ -8,7 +8,6 @@ import { FIREBASE_AUTH } from "../firebase/FirebaseConfig";
 
 export function Routes() {
     
-
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {

@@ -3,6 +3,7 @@ import {styled} from "styled-components/native";
 export const Container = styled.View`
     text-align: center;
     justify-content: center;
+    
 `
 
 export const Input = styled.TextInput`
@@ -16,4 +17,6 @@ export const Input = styled.TextInput`
     padding: 10px;
     background-color: #fff;
     border-color: #fff;
+    elevation: 2;
 `;
+

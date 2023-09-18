@@ -1,4 +1,3 @@
-import { Image } from "react-native";
 import { ArrowImg, Container, ContainerImg, ContainerRow, PageToRedirect } from "./styles";
 const arrowImg = require("../../assets/img/redRightArrow.png")
 

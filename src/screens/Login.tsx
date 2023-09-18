@@ -1,5 +1,5 @@
-import React from "react";
-import { Alert } from "react-native";
+import React, {useState} from "react";
+import { Alert, ActivityIndicator } from "react-native";
 import { HelpLink } from "../components/helpLink/HelpLink";
 import { InputEmail } from "../components/inputs/InputEmail";
 import { InputPassword } from "../components/inputs/InputPassword";
@@ -19,6 +19,8 @@ export function Login() {
     const{email, setEmail, password, setPassword} = useAuth();
     const auth = FIREBASE_AUTH
 
+    const [loading, setLoading] = useState(false);
+
     useFocusEffect(
         React.useCallback(() => {
             setEmail("")
@@ -28,9 +30,26 @@ export function Login() {
 
     const handleLogin = async () => {
         try{
+            setLoading(true); 
             await signInWithEmailAndPassword(auth, email, password)
         } catch (error: any) {
-            Alert.alert('Login failed: ', error.message)
+            switch (error.code) {
+                case 'auth/invalid-email':
+                    Alert.alert('Login Failed', 'Invalid email, please check it and try again')
+                    break;
+                case 'auth/weak-password':
+                    Alert.alert('Login Failed', 'Password must have at least 6 characters')
+                    break;
+                case 'auth/missing-password':
+                    Alert.alert('Login Failed', 'Password must have at least 6 characters')
+                    break;
+                case 'auth/user-not-found':
+                    Alert.alert('Login Failed',
+                    'The credentials do not correspond to a registered user')
+                    break;
+            }
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -51,6 +70,7 @@ export function Login() {
             <HelpLink onPress={handleNewAccount}
             children="Not have an account yet?"/>
             <ScreenButton onPress={handleLogin} children="LOGIN" />
+            {loading && <ActivityIndicator size="large" color="red" />}
             <SocialMedia>login</SocialMedia>
         </ScreenContainer>
     )

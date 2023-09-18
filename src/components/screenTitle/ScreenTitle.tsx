@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native"
 import { ScreenName } from "./styles"
 
 interface ScreeTitleProps {
-    children: string;
+    children: any;
 }
 
 export function ScreenTitle({children}: ScreeTitleProps) {

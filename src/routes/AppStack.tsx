@@ -7,7 +7,8 @@ const Stack = createNativeStackNavigator();
 export function AppStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='HomePage' component={HomePage}/>
+            <Stack.Screen options={{headerTransparent: true,
+            headerTitle: ""}} name='HomePage' component={HomePage}/>
         </Stack.Navigator>
     )
 }

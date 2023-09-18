@@ -1,6 +1,3 @@
-import { Text, View, StyleSheet } from "react-native"
-import { useForm, Controller } from "react-hook-form"
-
 import { Alert } from "react-native";
 import { InputName } from "../components/inputs/InputName";
 import { InputPassword } from "../components/inputs/InputPassword";
@@ -8,16 +5,43 @@ import { InputEmail } from "../components/inputs/InputEmail";
 import { ScreenTitle } from "../components/screenTitle/ScreenTitle";
 import { ScreenButton } from "../components/screenButton/ScreenButton";
 import { HelpLink } from "../components/helpLink/HelpLink";
-import { SocialMedia } from "../components/socialMedia/socialMedia";
+import { SocialMedia } from "../components/socialMedia/SocialMedia";
 import { ScreenContainer } from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { FIREBASE_AUTH, UPDATEUSER } from '../firebase/FirebaseConfig';
+import { useAuth } from "../contexts/AuthContext";
 
 export function SignUp() {
     const navigation = useNavigation();
 
-    const signUp = () => {
-        Alert.alert('Registered', 'The account was succefully registered');
-    };
+    const {email, setEmail, name, setName, password, setPassword} = useAuth();
+    const auth = FIREBASE_AUTH;
+
+    const handleSignUp = async () => {
+        try {
+            if(name.length >= 3){    
+                const response = await createUserWithEmailAndPassword(auth, email, password);
+                const user = response.user;
+                
+                if (user) {
+                    UPDATEUSER(user, {
+                    displayName: name
+                    });
+                }
+                
+                alert('Account succefully registered')
+                setEmail("");
+                setName("");
+                setPassword("");
+                navigation.navigate("Login" as never);
+            } else{
+                alert('Name should be at least 3 characters long')
+            }
+            } catch (error: any) {
+                alert('Sign Up failed: ' + error.message);
+            }
+        };
 
     return (
         <ScreenContainer>
@@ -25,35 +49,9 @@ export function SignUp() {
             <InputName />
             <InputEmail />
             <InputPassword />
-            <HelpLink onPress={() => navigation.navigate("Login")} children="Already have an account?"></HelpLink>
-            <ScreenButton onPress={() => navigation.navigate("Login")} children="SIGN IN" />
-            <SocialMedia children="Or sign up with social account" />
+            <HelpLink onPress={() => navigation.navigate("Login" as never)} children="Already have an account?"></HelpLink>
+            <ScreenButton onPress={handleSignUp} children="SIGN UP" />
+            <SocialMedia children="sign up" />
         </ScreenContainer>
     );
 }
-
-
-const styles = StyleSheet.create({
-    screenContainer: {
-        flex: 1,
-        marginTop: 106,
-    },
-    inputContainer: {
-        marginTop: 62,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    centralizar: {
-        marginTop: 32,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    direita: {
-        marginTop: 16,
-        marginRight: 16
-    },
-    centralize:  {
-        alignItems: "center",
-        justifyContent: "center"
-    }
-})

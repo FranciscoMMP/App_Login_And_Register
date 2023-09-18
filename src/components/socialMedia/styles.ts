@@ -1,9 +1,12 @@
 import {styled} from "styled-components/native";
 
 export const Container = styled.View`
-    margin-top: 125px;
+    margin-top: 615px;
+    margin-left: 110px;
+    margin-right: 110px;
     justify-content: center;
     align-items: center;
+    position: absolute
 `
 
 export const TextAboveSocialMedia = styled.Text`

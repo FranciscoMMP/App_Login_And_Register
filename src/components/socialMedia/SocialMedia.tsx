@@ -1,5 +1,4 @@
 import { ButtonSocialMedia, Container, ContainerSocialMedia, LogoSocialMedia, TextAboveSocialMedia } from "./styles";
-import { Image } from "react-native";
 
 interface TextAboveSocialMediaProps {
     children: string;

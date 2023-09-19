@@ -4,8 +4,8 @@ interface TextAboveSocialMediaProps {
     children: string;
 }
 
-const facebookImg = require("../../assets/img/facebookLogo.png")
-const googleImg = require("../../assets/img/googleLogo.png")
+const facebookImg = require("../../assets/img/facebookLogo.png");
+const googleImg = require("../../assets/img/googleLogo.png");
 
 export function SocialMedia({children} : TextAboveSocialMediaProps) {
 

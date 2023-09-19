@@ -12,10 +12,9 @@ export function InputName() {
 
     useFocusEffect(
         React.useCallback(() => {
-            setIsValidationPerformed(false)
+            setIsValidationPerformed(false);
         }, [])
-    )
-
+    );
 
     const isNameValidFn = (name: string) => {
         return name.length >= 3;

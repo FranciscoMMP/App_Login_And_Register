@@ -14,9 +14,9 @@ export function InputEmail() {
 
     useFocusEffect(
         React.useCallback(() => {
-            setIsValidationPerformed(false)
+            setIsValidationPerformed(false);
         }, [])
-    )
+    );
 
     const isEmailValid = (email: string) => {
         const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;

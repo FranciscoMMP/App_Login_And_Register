@@ -2,7 +2,6 @@ import React, { useState} from 'react';
 import { Text } from 'react-native';
 import { Container, Input } from './styles';
 import { useAuth } from '../../contexts/AuthContext';
-import { StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 export function InputPassword() {
@@ -13,10 +12,10 @@ export function InputPassword() {
 
     useFocusEffect(
         React.useCallback(() => {
-            setIsValidationPerformed(false)
-            setIsPasswordValid(true)
+            setIsValidationPerformed(false);
+            setIsPasswordValid(true);
         }, [])
-    )
+    );
 
     const isPasswordValidFn = (password: string) => {
         return password.length >= 6;
@@ -64,11 +63,3 @@ export function InputPassword() {
     );
 }
 
-const styles = StyleSheet.create({
-    shadowProp:{
-        shadowOffset: {width: -2, height: 4},  
-        shadowColor: '#171717',  
-        shadowOpacity: 0.2,  
-        shadowRadius: 3,  
-    }
-})
